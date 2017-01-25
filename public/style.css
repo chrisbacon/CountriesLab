@@ -1,0 +1,13 @@
+body{
+  background-position: 450px 5px;
+  background-image: url("https://static.vecteezy.com/system/resources/previews/000/050/156/original/9-stylish-vector-world-map-vector.jpg");
+  background-size: 800px 600px;
+  background-repeat: no-repeat;
+  font-family: verdana;
+  color: green;
+}
+
+#main-map {
+  height: 400px;
+  width: 400px;
+}
