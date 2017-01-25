@@ -8,6 +8,16 @@ var makeRequest = function (url, callback) {
   request.send();
   };
 
+  var populateSubRegions = function(subregions){
+    var select = document.querySelector('#subregions');
+    subregions.forEach(function(subregion){
+      var option = document.createElement('option');
+      option.innerText = subregion;
+      option.value = JSON.stringify(subregion);
+      select.appendChild(option);
+    })
+  }
+
 var populateRegions = function(regions){
   var select = document.querySelector('#regions');
   regions.forEach(function(region){
@@ -31,6 +41,19 @@ var populateCountries = function(countries, filter){
   })
 }
 
+var populateCountriesBySubRegions = function(countries, filter){
+  var select = document.querySelector('#countries');
+  select.innerHTML = "";
+  countries.forEach(function(country){
+    if (country.subregion === filter || filter === "") {
+      var option = document.createElement('option');
+      option.innerText = country.name;
+      option.value = JSON.stringify(country);
+      select.appendChild(option);
+    }
+  })
+}
+
 var requestCompleteCountries = function () {
   if (this.status != 200) return;
   var jsonString = this.responseText;
@@ -45,6 +68,15 @@ var requestCompleteCountries = function () {
     }
   }
   populateRegions(regions);
+
+  var subregions = []
+
+  for (var country of countries) {
+    if (!subregions.includes(country.subregion)) {
+      subregions.push(country.subregion);
+    }
+  }
+  populateSubRegions(subregions);
 }
 
 var initialiseSelects = function(){
@@ -110,6 +142,13 @@ var filterByRegion = function () {
 
 }
 
+var filterBySubRegion = function () {
+  var subregion = JSON.parse(this.value);
+
+  populateCountriesBySubRegions(countries, subregion)
+
+}
+
 
 var app = function () {
 
@@ -120,6 +159,9 @@ var app = function () {
 
   var selectDropDown2 = document.querySelector('#regions');
   selectDropDown2.onchange = filterByRegion;
+
+  var selectDropDown3 = document.querySelector('#subregions');
+  selectDropDown3.onchange = filterBySubRegion;
 
   var mapDiv = document.querySelector('#main-map')
   
