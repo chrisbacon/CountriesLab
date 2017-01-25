@@ -4,10 +4,12 @@ var MapWrapper = function (container, coords, zoom) {
     zoom: zoom
   });
 
+  this.markers = [];
 };
 
 MapWrapper.prototype = {
   addMarker: function(coords){
+    this.clearMarkers();
     var infowindow = new google.maps.InfoWindow({
     });
     var marker = new google.maps.Marker({
@@ -18,6 +20,8 @@ MapWrapper.prototype = {
     marker.addListener('click', function() {
       infowindow.open(this.googleMap, marker);
     });
+
+    this.markers.push(marker);
   },
   addClickEvent: function(){
     google.maps.event.addListener(this.googleMap, "click", function(event){
@@ -30,6 +34,12 @@ MapWrapper.prototype = {
   },
   setCenter: function(coords){
     this.googleMap.setCenter(coords)
+  },
 
+  clearMarkers: function() {
+    for (var marker of this.markers) {
+      marker.setMap(null);
+    };
+    this.markers = [];
   }
 }

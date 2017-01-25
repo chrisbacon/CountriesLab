@@ -40,7 +40,6 @@ var requestCompleteCountries = function () {
   var regions = []
 
   for (var country of countries) {
-    console.log(!regions.includes(country.region));
     if (!regions.includes(country.region)) {
       regions.push(country.region);
     }
@@ -95,6 +94,8 @@ var handleSelect = function() {
     borderUl.appendChild(li);
   }
   var latitudLongitud = {lat: country.latlng[0],lng: country.latlng[1]}
+
+  console.log(latitudLongitud)
   mainMap.addMarker(latitudLongitud);
   mainMap.setCenter(latitudLongitud);
 
